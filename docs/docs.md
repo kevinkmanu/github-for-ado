@@ -1,1 +1,1 @@
-/Demo example
+/Demo examples
