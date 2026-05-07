@@ -16,15 +16,16 @@
 
 **Goal**: Orient ADO users to the GitHub interface by showing equivalent features.
 
-1. **Open the demo repo** at `https://github.com/yortch/dotnet-aspire-squad-demo`
+1. **Open the demo repo** at `https://github.com/yortch/github-for-ado`
 2. **Code tab tour**:
    - Show the file browser, branch dropdown, "Go to file" search
    - Click into a file → show the Raw, Blame, History buttons
    - Compare: "In ADO this is Repos > Files"
 3. **Issues tab**:
    - Click on Projects tab
-   - Show project: https://github.com/users/yortch/projects/3
+   - Show unrelated project: https://github.com/users/yortch/projects/3
    - Compare: In ADO this is a board
+   - Go back to demo repo.
    - Show issue list (remove open filter), labels, milestones
    - Create a quick issue: "Add contributing guidelines"
    - Assign to Presenter B, add label `documentation`
@@ -118,28 +119,6 @@
    - Press `Y` → URL changes to include the commit SHA (permanent link)
    - **Key callout**: "Share this link in Slack/Teams — it'll always point to that exact version"
 
-### Demo 2.4 — Merge Strategies & Conflict Resolution (Presenter B, 10 min)
-
-**Goal**: Show all three merge strategies and resolve a conflict in the browser.
-
-**Setup** (pre-prepared): Have a PR ready that has a conflict.
-
-1. **Show merge strategy dropdown** on a PR that's ready to merge:
-   - "Create a merge commit" (default)
-   - "Squash and merge" (combines all commits)
-   - "Rebase and merge" (replays on top of main)
-   - Compare: "ADO calls these 'Merge', 'Squash', 'Rebase' in the Complete dialog"
-
-2. **Create a conflict** (live or pre-staged):
-   - Both presenters edit the same line of the same file on different branches
-   - Open a PR → GitHub shows "This branch has conflicts that must be resolved"
-
-3. **Resolve in the web editor**:
-   - Click "Resolve conflicts" button
-   - Show the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
-   - Edit to resolve → "Mark as resolved" → "Commit merge"
-   - **Key callout**: "Simple conflicts can be resolved entirely in the browser — no local checkout needed"
-
 ---
 
 ## Section 3: Pull Requests & Code Review (30 min)
@@ -147,6 +126,7 @@
 ### Demo 3.1 — PR Templates & Creating a PR (Presenter A, 5 min)
 
 1. **Show/create a PR template**:
+   - Create a branch named: `pr-template`
    - Navigate to `.github/PULL_REQUEST_TEMPLATE.md` (create if not exists)
    - Show the markdown template with checklist items:
      ```markdown
@@ -165,7 +145,51 @@
 
 2. **Create a new PR** → show the template pre-filling the description
 
-### Demo 3.2 — Code Review: Two Presenters Collaborate (Both, 15 min)
+### Demo 3.2 — Branch Protection & CODEOWNERS (Presenter A, 5 min)
+
+1. **Show branch protection settings**:
+   - Settings → Branches → main rule
+   - Toggle: "Require a pull request before merging"
+   - Toggle: "Require approvals" → set to 1
+   - Toggle: "Require status checks to pass" → select a check
+   - Toggle: "Require review from Code Owners"
+   
+2. **Show CODEOWNERS file**:
+   - Open `.github/CODEOWNERS`
+   - Show examples:
+     ```
+     * @yortch
+     docs/ @kevinkmanu
+     ```
+   - **Key callout**: "This auto-assigns reviewers based on what files are changed. ADO has 'Required reviewers' on policies, but CODEOWNERS is more granular."
+
+3. **Try to merge without approval** → show the blocked state
+
+
+### Demo 3.3 — Merge Strategies & Conflict Resolution (Presenter B, 10 min)
+
+**Goal**: Show all three merge strategies and resolve a conflict in the browser.
+
+**Setup** (pre-prepared): Have a PR ready that has a conflict.
+
+1. **Show merge strategy dropdown** on a PR that's ready to merge:
+   - "Create a merge commit" (default)
+   - "Squash and merge" (combines all commits)
+   - "Rebase and merge" (replays on top of main)
+   - Compare: "ADO calls these 'Merge', 'Squash', 'Rebase' in the Complete dialog"
+
+2. **Create a conflict** (live or pre-staged):
+   - Both presenters edit the same line of the same file on different branches
+   - Open a PR → GitHub shows "This branch has conflicts that must be resolved"
+   - Use: https://github.com/yortch/github-for-ado/pull/2
+
+3. **Resolve in the web editor**:
+   - Click "Resolve conflicts" button
+   - Show the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+   - Edit to resolve → "Mark as resolved" → "Commit merge"
+   - **Key callout**: "Simple conflicts can be resolved entirely in the browser — no local checkout needed"
+
+### Demo 3.4 — Code Review: Two Presenters Collaborate (Both, 15 min)
 
 **This is the highlight demo — shows real collaboration.**
 
@@ -183,50 +207,12 @@
 **Presenter A responds:**
 8. View the review comments in "Conversation" tab
 9. **Accept a suggested change** with one click → "Commit suggestion"
-10. **Reply to another comment** with explanation
-11. **Resolve conversations** after addressing
-12. **Re-request review** from Presenter B
+10. **Resolve conversations** after addressing
 
 **Presenter B approves:**
-13. Review the updates → "Approve"
-14. **Key callout**: "Notice the green checkmark — this satisfies branch protection"
+11. Review the updates → "Approve"
+12. **Key callout**: "Notice the green checkmark"
 
-### Demo 3.3 — Branch Protection & CODEOWNERS (Presenter A, 5 min)
-
-1. **Show branch protection settings**:
-   - Settings → Branches → main rule
-   - Toggle: "Require a pull request before merging"
-   - Toggle: "Require approvals" → set to 1
-   - Toggle: "Require status checks to pass" → select a check
-   - Toggle: "Require review from Code Owners"
-   
-2. **Show CODEOWNERS file**:
-   - Open `.github/CODEOWNERS`
-   - Show examples:
-     ```
-     * @yortch
-     *.js @yortch/frontend-team
-     docs/ @yortch/docs-team
-     ```
-   - **Key callout**: "This auto-assigns reviewers based on what files are changed. ADO has 'Required reviewers' on policies, but CODEOWNERS is more granular."
-
-3. **Try to merge without approval** → show the blocked state
-
-### Demo 3.4 — Status Checks & Auto-Merge (Presenter B, 5 min)
-
-1. **Show a PR with status checks**:
-   - Point to the "Checks" section showing GitHub Actions results
-   - Show a failing check → merge button disabled
-   - Show a passing check → merge button enabled
-
-2. **Enable Auto-merge** (if available):
-   - On a PR awaiting checks, click "Enable auto-merge"
-   - Select merge strategy
-   - **Key callout**: "The PR merges itself once all required checks pass — no babysitting needed"
-
-3. **Final merge**:
-   - Merge the PR → show the issue auto-closing
-   - Show the merge commit on main
 
 ---
 
